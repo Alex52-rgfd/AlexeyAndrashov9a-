@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Искусственный интеллект: просто о сложном</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Базовые настройки и переменные */
+        :root {
+            --primary: #4F46E5;
+            --primary-light: #EEF2FF;
+            --text-main: #1F2937;
+            --text-muted: #4B5563;
+            --bg-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --success: #10B981;
+            --danger: #EF4444;
+            --border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Навигация */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Общие стили контейнеров */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        section {
+            margin-bottom: 6rem;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .definition-box {
+            background: var(--primary-light);
+            padding: 2rem;
+            border-radius: 1rem;
+            border-left: 5px solid var(--primary);
+            font-size: 1.125rem;
+            font-weight: 400;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem auto;
+        }
+
+        /* Глоссарий */
+        .glossary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .glossary-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .glossary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .glossary-card strong {
+            color: var(--primary);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Таймлайн */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.4rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid var(--bg-color);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .timeline-date {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Сетка применения */
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .app-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .app-card .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .app-card .example {
+            background: #F3F4F6;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Таблица */
+        .table-container {
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Плюсы и Минусы */
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .column-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-top: 5px solid;
+        }
+
+        .pros .column-card {
+            border-top-color: var(--success);
+        }
+
+        .cons .column-card {
+            border-top-color: var(--danger);
+        }
+
+        .column-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .pros ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .cons ul li::before {
+            content: '!';
+            position: absolute;
+            left: 0;
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        .risk-advice {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-style: italic;
+            background: #FEE2E2;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            display: inline-block;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .pros-cons-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none; /* Скрываем меню на мобильных для простоты */
+            }
+            h2 {
+                font-size: 1.75rem;
+            }
+            .container {
+                padding-top: 4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">AI Simple</div>
+            <div class="nav-links">
+                <a href="#what-is">Что такое ИИ</a>
+                <a href="#applications">Применение</a>
+                <a href="#pros-cons">Плюсы и минусы</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <!-- Секция 1 -->
+        <section id="what-is">
+            <h2>Что такое ИИ?</h2>
+            
+            <div class="definition-box">
+                ИИ — это программы, которые учатся на данных и решают задачи, похожие на человеческие: распознают образы, понимают текст, принимают решения.
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">Мини-глоссарий</h3>
+            <div class="glossary-grid">
+                <div class="glossary-card">
+                    <strong>Машинное обучение</strong>
+                    Метод, при котором программа учится на примерах, а не по жестким правилам.
+                </div>
+                <div class="glossary-card">
+                    <strong>Нейросеть</strong>
+                    Математическая модель, вдохновленная работой мозга, которая находит сложные закономерности.
+                </div>
+                <div class="glossary-card">
+                    <strong>Датасет</strong>
+                    Набор данных (тексты, картинки, цифры), на котором обучается ИИ.
+                </div>
+                <div class="glossary-card">
+                    <strong>Промпт</strong>
+                    Текстовый запрос или инструкция, которую пользователь дает ИИ.
+                </div>
+                <div class="glossary-card">
+                    <strong>Генеративная модель</strong>
+                    ИИ, способный создавать новые тексты, картинки или музыку.
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--text-muted);">Краткая история</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">1950</div>
+                    <div>Алан Тьюринг предложил «тест Тьюринга» для проверки интеллекта машин.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">1997</div>
+                    <div>Компьютер Deep Blue победил чемпиона мира по шахматам Гарри Каспарова.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2010-е</div>
+                    <div>Взрывной рост нейросетей и глубокого обучения.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2020-е</div>
+                    <div>Появление и массовое распространение генеративных моделей (ChatGPT, Midjourney).</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция 2 -->
+        <section id="applications">
+            <h2>Применение ИИ в разных сферах</h2>
+            
+            <div class="apps-grid">
+                <div class="app-card">
+                    <div class="icon">🏥</div>
+                    <h3>Медицина</h3>
+                    <p>Диагностика по снимкам, подбор лечения.</p>
+                    <div class="example"><strong>Пример:</strong> ИИ помогает находить признаки болезней на рентгене.</div>
+                </div>
+                <div class="app-card">
+                    <div class="icon">🎓</div>
+                    <h3>Образование</h3>
+                    <p>Персонализированные задания, проверка работ.</p>
+                    <div class="example"><strong>Пример:</strong> Адаптивная платформа подбирает упражнения по уровню ученика.</div>
+                </div>
+                <div class="app-card">
+                    <div class="icon">🚗</div>
+                    <h3>Транспорт</h3>
+                    <p>Беспилотные автомобили, оптимизация маршрутов.</p>
+                    <div class="example"><strong>Пример:</strong> Навигатор строит маршрут с учётом пробок в реальном времени.</div>
+                </div>
+                <div class="app-card">
+                    <div class="icon">🏭</div>
+                    <h3>Промышленность</h3>
+                    <p>Контроль качества, предсказание поломок.</p>
+                    <div class="example"><strong>Пример:</strong> Датчики и ИИ заранее предупреждают о неисправности станка.</div>
+                </div>
+                <div class="app-card">
+                    <div class="icon">🎨</div>
+                    <h3>Творчество</h3>
+                    <p>Генерация текстов, картинок, музыки.</p>
+                    <div class="example"><strong>Пример:</strong> Нейросеть рисует иллюстрацию по описанию.</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Сфера</th>
+                            <th>Задача</th>
+                            <th>Пример технологии</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Медицина</td>
+                            <td>Анализ медицинских изображений</td>
+                            <td>Компьютерное зрение (CV)</td>
+                        </tr>
+                        <tr>
+                            <td>Образование</td>
+                            <td>Адаптация учебного плана</td>
+                            <td>Рекомендательные системы</td>
+                        </tr>
+                        <tr>
+                            <td>Транспорт</td>
+                            <td>Построение оптимального маршрута</td>
+                            <td>Алгоритмы оптимизации</td>
+                        </tr>
+                        <tr>
+                            <td>Промышленность</td>
+                            <td>Предиктивное обслуживание</td>
+                            <td>Анализ временных рядов (IoT)</td>
+                        </tr>
+                        <tr>
+                            <td>Творчество</td>
+                            <td>Создание контента по запросу</td>
+                            <td>Генеративный ИИ (LLM, Diffusion)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Секция 3 -->
+        <section id="pros-cons">
+            <h2>Плюсы и минусы ИИ</h2>
+            
+            <div class="pros-cons-grid">
+                <!-- Плюсы -->
+                <div class="pros">
+                    <div class="column-card">
+                        <h3>Плюсы</h3>
+                        <ul>
+                            <li>Ускоряет рутину и обработку больших объёмов данных.</li>
+                            <li>Помогает в диагностике и поиске решений там, где нужна точность.</li>
+                            <li>Делает сервисы персонализированными (рекомендации, обучение под уровень).</li>
+                            <li>Автоматизирует опасные или монотонные задачи.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Минусы -->
+                <div class="cons">
+                    <div class="column-card">
+                        <h3>Минусы и риски</h3>
+                        <ul>
+                            <li>Может ошибаться и «придумывать» факты (галлюцинации).
+                                <span class="risk-advice">Как снизить риск: проверять факты, не доверять слепо выводам ИИ.</span>
+                            </li>
+                            <li>Требует больших объёмов качественных данных.
+                                <span class="risk-advice">Как снизить риск: тщательно очищать данные перед обучением.</span>
+                            </li>
+                            <li>Есть риски приватности и неправильного использования данных.
+                                <span class="risk-advice">Как снизить риск: не вводить личные данные в открытые нейросети.</span>
+                            </li>
+                            <li>Может влиять на рынок труда: некоторые задачи становятся автоматизированными.
+                                <span class="risk-advice">Как снизить риск: осваивать новые навыки работы с ИИ.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Подвал с вашей подписью -->
+    <footer>
+        <p>Создал Андрашов Алексей Андреевич, 2026 год</p>
+    </footer>
+
+</body>
+</html>
